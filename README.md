@@ -1,3 +1,6 @@
+# REQUIREMENT
+- docker
+
 # SET UP PROJECT
   - make init
   - make migrate
