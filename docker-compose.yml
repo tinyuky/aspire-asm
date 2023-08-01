@@ -1,0 +1,48 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: laravel-app
+    container_name: laravel-app
+    ports:
+      - "8000:8000"
+    environment:
+      - APP_ENV=local
+      - APP_DEBUG=true
+      - APP_KEY=your_laravel_app_key
+      - DB_CONNECTION=mysql
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_DATABASE=aspire
+      - DB_USERNAME=admin
+      - DB_PASSWORD=password
+    depends_on:
+      - db
+    networks:
+      - aspire-network
+
+  db:
+    image: mysql:5.7
+    container_name: laravel-mysql
+    platform: linux/amd64
+    volumes:
+      - aspire-data:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=aspire
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=password
+      - MYSQL_ROOT_PASSWORD=password
+    ports:
+      - "3306:3306"
+    networks:
+      - aspire-network
+
+volumes:
+  aspire-data:
+
+networks:
+  aspire-network:
+    driver: bridge
